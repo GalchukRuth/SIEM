@@ -9,19 +9,9 @@ LOG_FILE = r'C:\Users\Owner\Downloads\Drive_Cyber_Course\Python\20 - SIEM\Port_S
 KEYS = ['DATE', 'SRC_IP', 'DST_IP', 'PORT', 'ACTION', 'PROTOCOL']
 PORTS = {'21' : 'FTP', '22' : 'SSH', '23' : 'TELNET', '25' : 'SMTP' , '67' : 'DHCP' , '53'  : 'DNS' , '80' : 'HTTP', '445' : 'SMB' ,'443' : 'HTTPS'}
 
-def main():
-    cnx, cursor = ConnectToDB()
-    query = ("SELECT * FROM fwlogs")
-    cursor.execute(query)
-    result = cursor.fetchall()
-    for line in result:
-        print line[2]
-    cursor.close()
-    cnx.close()
- #   readLogFile()
-#    commitLogFileToDB()
 
-def lineToValue(line):
+#get list values from line
+def lineToListValues(line):
     lst_values = line.split(' ')
     lst_values[0] = lst_values[0] + ' ' + lst_values[1]
     lst_values.remove(lst_values[1])
@@ -35,27 +25,33 @@ def portToProtocol(port):
         else:
             return 'UNKNOWN'
 
+#get dictionary from log file and insert it into the DB
 def readLogFile():
+    cnx, cursor = connectToDB()
+    deleteFromDB(cnx, cursor)
     with open(LOG_FILE) as file:
         for line in file:
             line = line[:len(line)-1]
-            values = lineToValue(line)
+            values = lineToListValues(line)
             protocol = portToProtocol(values[3])
             values.append(protocol)
             dic = dict(zip(KEYS, values))
-            cnx, cursor = ConnectToDB()
-            InsertToDB(dic, cnx, cursor)
-            print dic
- #   return content
+            insertToDB(dic, cnx, cursor)
 
-def InsertToDB(log, cnx, cursor):
+#insert log file to Database
+def insertToDB(log, cnx, cursor):
     add_log = ("""INSERT INTO fwlogs
                 (ID, DATE, SRC_IP, DST_IP, PORT, PROTOCOL, ACTION)
                 VALUES (NULL, %(DATE)s, %(SRC_IP)s, %(DST_IP)s, %(PORT)s, %(PROTOCOL)s, %(ACTION)s)""")
     cursor.execute(add_log, log)
     cnx.commit()
 
-def ConnectToDB():
+def deleteFromDB(cnx, cursor):
+    add_log = ("""TRUNCATE TABLE fwlogs""")
+    cursor.execute(add_log)
+    cnx.commit()
+
+def connectToDB():
     try:
         cnx = mysql.connector.connect(user=user, password=password,
                                       host=host, database=database)
@@ -68,18 +64,3 @@ def ConnectToDB():
         else:
             print(err)
         return None
-
-def AnalyzeSusPort():
-    cnx, cursor = ConnectToDB()
-    query = ("SELECT SRC_IP FROM fwlogs WHERE PORT IN ({})".format(','))
-    cursor.execute(query)
-    query_result = []
-    for line in cursor:
-        query_result.append(line[0])
-    cursor.close()
-    cnx.close()
-    return set(query_result)
-
-if __name__ == '__main__':
-    main()
-
