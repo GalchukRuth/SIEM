@@ -6,7 +6,8 @@ def main():
 
 #    readLogFile()
     port_lst = [444, 445]
-    spcificPort(port_lst)
+#    spcificPort(port_lst)
+    portScan()
 
 
 if __name__ == '__main__':
