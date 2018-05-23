@@ -6,9 +6,9 @@ def main():
 
     readLogFile()
     port_lst = [444, 445]
-#    spcificPort(port_lst)
-    portScan()
-  #  pingSweep()
+#    print specificPort(port_lst)
+#    print portScan()
+    print pingSweep()
 
 if __name__ == '__main__':
     main()

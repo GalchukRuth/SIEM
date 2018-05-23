@@ -5,8 +5,9 @@ user = 'root'
 password = 'P@ssw0rd'
 host = '192.168.75.133'
 database = 'siem'
-LOG_FILE = r'C:\Users\Owner\Downloads\Drive_Cyber_Course\Python\20 - SIEM\Port_Scan.txt'
-#LOG_FILE = r'C:\Users\Owner\Downloads\Drive_Cyber_Course\Python\20 - SIEM\Port_Scan.txt'
+LOG_FILE = r'C:\Users\Owner\PycharmProjects\SIEM\Ping_Sweep.txt'
+#LOG_FILE = r'C:\Users\Owner\PycharmProjects\SIEM\Port_Scan.txt'
+#LOG_FILE = r'C:\Users\Owner\PycharmProjects\SIEM\Suspicious_Port.txt'
 KEYS = ['DATE', 'SRC_IP', 'DST_IP', 'PORT', 'ACTION', 'PROTOCOL']
 PORTS = {'21' : 'FTP', '22' : 'SSH', '23' : 'TELNET', '25' : 'SMTP' , '67' : 'DHCP' , '53'  : 'DNS' , '80' : 'HTTP', '445' : 'SMB' ,'443' : 'HTTPS'}
 
