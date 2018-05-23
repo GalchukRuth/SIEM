@@ -23,7 +23,7 @@ def portScan():
         if line[:2] in dic.keys():
             dic[line[:2]] += 1
         else:
-            dic.update({line[:2] : 1})
+            dic[line[:2]] = 1
     for k, v in dic.iteritems():
         if v >= 10:
             print k[0], '->', v
