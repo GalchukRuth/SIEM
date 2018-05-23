@@ -1,4 +1,6 @@
 from Log_Parser import *
+SRC_IP = 0
+DST_IP = 1
 
 #get all source IP addresses that connecting on port 444 or 445
 def spcificPort(port_lst):
@@ -28,22 +30,20 @@ def portScan():
     cursor.close()
     cnx.close()
 #
-def portScan2():
+def pingSweep():
     cnx, cursor = connectToDB()
-    query = ("SELECT DISTINCT SRC_IP, DST_IP, PORT FROM fwlogs")
+    query = ("SELECT SRC_IP, DST_IP FROM fwlogs WHERE PORT = 0")
     cursor.execute(query)
     result = cursor.fetchall()
-    count = 0
-    for i in range(len(result)-1):
-        print i, result[i]
-        if (result[i][0] == result[i+1][0]) & (result[i][1] == result[i+1][1]):
-#            count += 1
- #           if count == 10:
-  #              print '\t', result[i][0], result[i][1], ' -> ', count
-   #             count = 0
-            print '\ty'
-        elif (result[i][0] != result[i+1][0]) | (result[i][1] != result[i+1][1]):
-            print '\tn'
-    cursor.close()
-    cnx.close()
-
+    dic = {}
+    lst_values = []
+    for line in result:
+        if line[SRC_IP] in dic.keys():
+            lst_values.append(line[DST_IP])
+            dic[line[SRC_IP]] = lst_values
+            if len(lst_values) == 10:
+                print line[SRC_IP], '->', len(lst_values)
+        else:
+            lst_values = []
+            lst_values.append(line[DST_IP])
+            dic[line[SRC_IP]] = lst_values
