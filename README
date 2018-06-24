@@ -4,11 +4,11 @@ Software product that provides a real-time analysis of security alerts generated
 
 Files
 -----
-- Log_Parser.py -   explanation
+- Log_Parser.py -
 - Log_Analizer.py -
 - Client.py -
-- Port_Scan.txt, Ping_Swip.txt, Suspicious_Port.txt - log files for Log_Analizer's fanctions
- going to simulate Firewall’s log files and going to have a similar structure as the firewal
+- Port_Scan.txt, Ping_Swip.txt, Suspicious_Port.txt - log files for Log_Analizer's functions
+ going to simulate Firewall’s log files and going to have a similar structure as the firewall
 
 Instructions
 ------------

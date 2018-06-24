@@ -1,9 +1,9 @@
 import Log_Parser
 
 #get all source IP addresses that connecting on port 444 or 445
-def specificPort(port_lst):
+def specificPort(port):
     cnx, cursor = Log_Parser.connectToDB()
-    query = ("SELECT DISTINCT SRC_IP, PORT FROM fwlogs WHERE PORT={} OR PORT={}".format(port_lst[0],port_lst[1]))
+    query = ("SELECT DISTINCT SRC_IP, PORT FROM fwlogs WHERE PORT={}".format(port))
     cursor.execute(query)
     result = cursor.fetchall()
     cursor.close()
@@ -11,9 +11,6 @@ def specificPort(port_lst):
     if len(result) != 0:
         for line in result:     # line = [SRC_IP, PORT]
             print 'source IP :', line[0], '-> port :', line[1]
-        return True
-    else:
-        return False
 
 #port scan defined by any IP address that trying to connect another computer in more than 10 different ports
 def portScan():
