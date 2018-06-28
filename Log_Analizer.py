@@ -66,7 +66,7 @@ def pingSweepWithTime(seconds):
     for key, value in dic.iteritems():      # dic = {SRC_IP : [(DST_IP, DATE), (DST_IP, DATE)]}
         if len(value) >= 10:
             start = value[0][1]
-            end = value[len(value)-1][1]
+            end = value[10][1]
             time_diff = getTimeDiffreneces(start, end)
             if int(time_diff[1]) <= seconds:
                 print 'IP address', key, 'trying to get more than 10 different IP addresses with ping: ', len(value[0][0]), 'times in', time_diff[1], 'seconds'

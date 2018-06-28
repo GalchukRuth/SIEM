@@ -12,6 +12,8 @@ Files
 
 Instructions
 ------------
+Use 'python SIEM\Client.py --help' for more information
+
 In this exercise you need to create a DB server with relevant tables, python code that simulates a firewall (reads log file of FW) and python code that analyze the data and discover few threats – ping sweep, port scan and suspicious ports.
 
 Few important points:
