@@ -3,11 +3,10 @@ from mysql.connector import errorcode
 
 user = 'root'
 password = 'P@ssw0rd'
-host = '192.168.252.214'
+host = '10.0.0.9'
 database = 'siem'
 KEYS = ['DATE', 'SRC_IP', 'DST_IP', 'PORT', 'ACTION', 'PROTOCOL']
 PORTS = {'21' : 'FTP', '22' : 'SSH', '23' : 'TELNET', '25' : 'SMTP' , '67' : 'DHCP' , '53'  : 'DNS' , '80' : 'HTTP', '445' : 'SMB' ,'443' : 'HTTPS'}
-
 
 #get list values from line
 def lineToListValues(line):

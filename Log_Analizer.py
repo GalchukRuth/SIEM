@@ -65,6 +65,7 @@ def pingSweepWithTime(seconds):
             dic[line[0]] = [line[1:3]]
     for key, value in dic.iteritems():      # dic = {SRC_IP : [(DST_IP, DATE), (DST_IP, DATE)]}
         if len(value) >= 10:
+            # sorted(value, key= lambda tup: tup[1])
             start = value[0][1]
             end = value[10][1]
             time_diff = getTimeDiffreneces(start, end)
