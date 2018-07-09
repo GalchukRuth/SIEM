@@ -2,7 +2,7 @@ from scapy.all import *
 from datetime import datetime
 
 # Getting all interfaces
-def get_interfaces():
+def getInterfaces():
     """returns a list of available network interfaces"""
     interfaces = []
     for iface_name in sorted(ifaces.data.keys()):
@@ -11,10 +11,16 @@ def get_interfaces():
         interfaces.append(i)
     return interfaces
 
-def sniffA():
-    sniff(iface='Broadcom 802.11n Network Adapter',
+# Sniffing network packets
+def sniffPackets(file_path):
+    lst = []
+    log_line = sniff(count=5,iface='Broadcom 802.11n Network Adapter',
           prn=packet2Log,
           lfilter=lambda pkt: (IP in pkt) and (TCP in pkt))
+    # with open (file_path, 'a') as file:
+    #     file.write(log_line)
+    print 'type', type(log_line)
+    return lst
 
 def packet2Log(packet):
     pkt_time = str(datetime.now()).split('.')[0]
@@ -23,9 +29,14 @@ def packet2Log(packet):
                                      packet[IP].dst,
                                      packet[TCP].dport,
                                      "PASS")
-    print(log_line)
-    # write to file (log_line)
+    return log_line
 
+# Writing log_line to file
+def log2File(file_path):
+    log_line = sniffPackets()
+    with open (file_path, 'a') as file:
+        file.write(log_line)
 
-
-sniffA()
+print sniffPackets(r'C:\Users\Owner\PycharmProjects\SIEM\Sniff_Log.txt')
+# log2File(r'C:\Users\Owner\PycharmProjects\SIEM\Sniff_Log.txt')
+# print  getInterfaces()
