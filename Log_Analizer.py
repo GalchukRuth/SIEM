@@ -10,7 +10,7 @@ def specificPort(port):
     cnx.close()
     if len(result) != 0:
         for line in result:     # line = [SRC_IP, PORT]
-            print 'source IP :', line[0], '-> port :', line[1]
+            print 'Specific Port attack!!!\n\t to port', port, 'from source IP :', line[0], '-> port :', line[1]
 
 #port scan defined by any IP address that trying to connect another computer in more than 10 different ports
 def portScan():
@@ -28,7 +28,7 @@ def portScan():
             dic[line[:2]] = 1
     for key, value in dic.iteritems():      # dic = {[SRC_IP, DST_IP] : 10}
         if value >= 10:
-            print 'source IP :', key[0], '->', value, 'ports'
+            print 'Port Scan attack!!!\n\t from source IP :', key[0], '->', value, 'ports'
 
 #ping sweep defined by same IP address that trying to get more than 10 different IP addresses with ping (Here it will be port 0)
 def pingSweep():
@@ -46,7 +46,7 @@ def pingSweep():
             dic[line[0]] = 1
     for key, value in dic.iteritems():      # dic = {SRC_IP : 10}
         if value >= 10:
-            print 'source IP :', key, '->', value, 'times'
+            print 'Ping Sweep attack!!!\n\t from source IP :', key, '->', value, 'times'
 
 #ping sweep defined by same IP address that trying to get more than 10 different IP addresses with ping (Here it will be port 0)
 #with time differences to lower than any seconds to ping sweep conditions (more than 10 hosts in less than 10 seconds)
@@ -70,7 +70,9 @@ def pingSweepWithTime(seconds):
             end = value[10][1]
             time_diff = getTimeDiffreneces(start, end)
             if int(time_diff[1]) <= seconds:
-                print 'IP address', key, 'trying to get more than 10 different IP addresses with ping: ', len(value[0][0]), 'times in', time_diff[1], 'seconds'
+                print 'Ping Sweep attack!!!\n\t ' \
+                      'IP address', key, 'trying to get more than 10 different IP addresses with ping: ',\
+                        len(value[0][0]), 'times in', time_diff[1], 'seconds'
 
 #calculating time differences
 def getTimeDiffreneces(start, end):

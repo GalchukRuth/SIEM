@@ -12,31 +12,25 @@ def getInterfaces():
     return interfaces
 
 # Sniffing network packets
-def sniffPackets(file_path):
-    lst = []
-    log_line = sniff(count=5,iface='Broadcom 802.11n Network Adapter',
-          prn=packet2Log,
-          lfilter=lambda pkt: (IP in pkt) and (TCP in pkt))
-    # with open (file_path, 'a') as file:
-    #     file.write(log_line)
-    print 'type', type(log_line)
-    return lst
+def sniffPackets(f):
+    print ("SNIFFER STARTED...")
+    prn_func = packet2log_with_f(f)
+    sniff(iface='Broadcom 802.11n Network Adapter',
+                    prn=prn_func,
+                    lfilter=lambda pkt: (IP in pkt) and (TCP in pkt))
 
-def packet2Log(packet):
-    pkt_time = str(datetime.now()).split('.')[0]
-    log_line = "{} {} {} {} {}".format(pkt_time,
-                                     packet[IP].src,
-                                     packet[IP].dst,
-                                     packet[TCP].dport,
-                                     "PASS")
-    return log_line
+def packet2log_with_f(f):
+    def packet2Log(packet):
+        pkt_time = str(datetime.now()).split('.')[0]
+        log_line = "{} {} {} {} {}".format(pkt_time,
+                                         packet[IP].src,
+                                         packet[IP].dst,
+                                         packet[TCP].dport,
+                                         "PASS")
+        print("SNIFFED: {}".format(log_line))
+        f.write(log_line + "\n")
+        f.flush()
+    return packet2Log
 
-# Writing log_line to file
-def log2File(file_path):
-    log_line = sniffPackets()
-    with open (file_path, 'a') as file:
-        file.write(log_line)
-
-print sniffPackets(r'C:\Users\Owner\PycharmProjects\SIEM\Sniff_Log.txt')
 # log2File(r'C:\Users\Owner\PycharmProjects\SIEM\Sniff_Log.txt')
 # print  getInterfaces()

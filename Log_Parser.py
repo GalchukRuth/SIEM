@@ -1,9 +1,10 @@
 import mysql.connector
 from mysql.connector import errorcode
+import time
 
 user = 'root'
 password = 'P@ssw0rd'
-host = '10.0.0.9'
+host = '192.168.75.133'
 database = 'siem'
 KEYS = ['DATE', 'SRC_IP', 'DST_IP', 'PORT', 'ACTION', 'PROTOCOL']
 PORTS = {'21' : 'FTP', '22' : 'SSH', '23' : 'TELNET', '25' : 'SMTP' , '67' : 'DHCP' , '53'  : 'DNS' , '80' : 'HTTP', '445' : 'SMB' ,'443' : 'HTTPS'}
@@ -25,6 +26,26 @@ def portToProtocol(port):
 
 #get dictionary from log file and insert it into the DB
 def readLogFile(log_file):
+    cnx, cursor = connectToDB()
+    deleteFromDB(cnx, cursor)
+    print ("PARSER STARTED...")
+    with open(log_file, 'r') as file:
+        while True:
+            line = file.readline()
+            if line != "":
+                line = line[:len(line)-1]
+                values = lineToListValues(line)
+                protocol = portToProtocol(values[3])
+                values.append(protocol)
+                dic = dict(zip(KEYS, values))
+                print "INSERTING TO DB: {}".format(dic)
+                insertToDB(dic, cnx, cursor)
+            else:
+                time.sleep(0.1)
+                continue
+
+#get dictionary from log file and insert it into the DB
+def readLogFilefromFile(log_file):
     cnx, cursor = connectToDB()
     deleteFromDB(cnx, cursor)
     with open(log_file) as file:
