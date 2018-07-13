@@ -25,10 +25,10 @@ def portToProtocol(port):
             return 'UNKNOWN'
 
 #get dictionary from log file and insert it into the DB
-def readLogFile(log_file):
+def readLogFileFromSniffer(log_file):
     cnx, cursor = connectToDB()
     deleteFromDB(cnx, cursor)
-    print ("PARSER STARTED...")
+    print "PARSER STARTED..."
     with open(log_file, 'r') as file:
         while True:
             line = file.readline()
@@ -48,6 +48,7 @@ def readLogFile(log_file):
 def readLogFilefromFile(log_file):
     cnx, cursor = connectToDB()
     deleteFromDB(cnx, cursor)
+    print "PARSER STARTED..."
     with open(log_file) as file:
         for line in file:
             line = line[:len(line)-1]
@@ -56,6 +57,8 @@ def readLogFilefromFile(log_file):
             values.append(protocol)
             dic = dict(zip(KEYS, values))
             insertToDB(dic, cnx, cursor)
+    print "INSERTING TO DB FINISHED"
+
 
 #insert log file to Database
 def insertToDB(log, cnx, cursor):
